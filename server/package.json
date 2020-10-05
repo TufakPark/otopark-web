@@ -1,24 +1,11 @@
 {
-  "name": "otopark-web",
+  "name": "server",
   "version": "1.0.0",
   "description": "Tufak Park",
-  "main": "Server.js",
+  "main": "server.js",
   "scripts": {
-    "dev:client": "cd ../client && npm start",
-    "dev:server": "nodemon Server.js",
-    "dev": "npm run dev:server && npm run dev:client"
+    "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TufakPark/otopark-web.git"
-  },
-  "keywords": [],
-  "author": "Kerim Daş (Tobymeister)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TufakPark/otopark-web/issues"
-  },
-  "homepage": "https://github.com/TufakPark/otopark-web#readme",
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.10.7",

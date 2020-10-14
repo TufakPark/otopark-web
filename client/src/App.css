@@ -16,3 +16,41 @@
 .App-link {
   color: #61dafb;
 }
+
+.tp-welcome-text {
+  font-family: 'NotoSansJP-Black', sans-serif;
+}
+
+.tp-regular-text {
+  font-family: 'NotoSansJP-Regular', sans-serif;
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Black';
+  src: local('NotoSansJP-Black'), url(./fonts/NotoSansJP/NotoSansJP-Black.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Bold';
+  src: local('NotoSansJP-Bold'), url(./fonts/NotoSansJP/NotoSansJP-Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Light';
+  src: local('NotoSansJP-Light'), url(./fonts/NotoSansJP/NotoSansJP-Light.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Medium';
+  src: local('NotoSansJP-Medium'), url(./fonts/NotoSansJP/NotoSansJP-Medium.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Regular';
+  src: local('NotoSansJP-Regular'), url(./fonts/NotoSansJP/NotoSansJP-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NotoSansJP-Thin';
+  src: local('NotoSansJP-Thin'), url(./fonts/NotoSansJP/NotoSansJP-Thin.otf) format('opentype');
+}

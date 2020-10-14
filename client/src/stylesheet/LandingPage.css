@@ -1,0 +1,14 @@
+@import url(../App.css);
+
+.landing-page-main {
+  width: 100%;
+}
+
+.landing-page-section-one {
+  height: 100vh;
+  width: 100%;
+}
+
+.landing-page-welcome-text {
+  width: auto;
+}

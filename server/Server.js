@@ -1,12 +1,41 @@
+// ----- required libraries ----------------------
+const express = require('express');
+const cors    = require('cors');
+const mongoose= require('mongoose');
+
+// ----- required configs ------------------------
 require('dotenv').config();
 
-const express   = require('express')
-const app       = express()
+// ----- required variables ----------------------
+const app = express();
+const port= process.env.API_PORT || 5000;
 
-app.get('/', (req, res) => {
-  res.send('Tufak Park')
+// ----- required initializations ----------------
+app.use(cors());
+app.use(express.json());
+
+// ----- database stuff --------------------------
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+};
+
+mongoose.connect(process.env.MONGO_URI, options);
+
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+  console.log('MongoDB connection established successfully.');
 })
 
-app.listen(process.env.API_PORT, () => {
-  console.log(`Listening at http://localhost:${process.env.API_PORT}`)
-})
+// ----- required routes -------------------------
+
+// login
+
+// register
+
+// ----- checking server status ------------------
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});

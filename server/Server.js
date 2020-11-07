@@ -32,8 +32,12 @@ connection.once('open', () => {
 // ----- required routes -------------------------
 
 // login
+const loginRouter = require('./routes/login');
+app.use('/login', loginRouter);
 
 // register
+const registerRouter = require('./routes/register');
+app.use('/register', registerRouter);
 
 // ----- checking server status ------------------
 app.listen(port, () => {

@@ -1,31 +1,33 @@
 {
-    "name": "otopark-web",
-    "version": "1.0.0",
-    "description": "Tufak Park",
-    "directories": {
-        "doc": "docs"
-    },
-    "scripts": {
-        "dev:install": "cd ./client && npm install && cd ../server && npm install",
-        "dev:client": "cd ./client && npm start",
-        "dev:server": "cd ./server && npm start",
-        "dev:init": "npm run dev:server && npm run dev:client"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/TufakPark/otopark-web.git"
-    },
-    "keywords": [
-        "Mongodb",
-        "Express",
-        "React",
-        "Node"
-    ],
-    "author": "Kerim Daş (Tobymeister)",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/TufakPark/otopark-web/issues"
-    },
-    "homepage": "https://github.com/TufakPark/otopark-web#readme",
-    "dependencies": {}
+  "name": "otopark-web",
+  "version": "1.0.0",
+  "description": "Online Parking Project based on MERN stack.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "dev": "concurrently \"npm run server\""
+  },
+  "keywords": [
+    "parking",
+    "mern"
+  ],
+  "author": "Tobymeister",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8"
+  }
 }

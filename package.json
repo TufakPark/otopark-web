@@ -1,33 +1,25 @@
 {
-  "name": "otopark-web",
-  "version": "1.0.0",
-  "description": "Online Parking Project based on MERN stack.",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
-    "dev": "concurrently \"npm run server\""
-  },
-  "keywords": [
-    "parking",
-    "mern"
-  ],
-  "author": "Tobymeister",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.2.2",
-    "babel-preset-env": "^1.7.0",
-    "nodemon": "^2.0.6"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^5.3.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.8"
-  }
+    "name": "otopark-web",
+    "version": "1.0.0",
+    "description": "MERN Stack",
+    "main": "server.js",
+    "scripts": {
+        "dev:client": "npm start --prefix client",
+        "dev:server": "nodemon server.js",
+        "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+    },
+    "author": "Tobymeister",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "concurrently": "^5.3.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.8.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.11.8"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
 }

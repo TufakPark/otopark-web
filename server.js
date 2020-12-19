@@ -1,48 +1,50 @@
-require('dotenv').config({ path: './config/.env' });
+// Importing environment variables from config.env
+const { UP_API_PORT, UP_DB_CONN } = require('./config');
 
+// Import ...
 const express = require('express');
-const cors    = require('cors');
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 
-// Routes
-import userRoutes from './routes/api/v1/users';
-import authRoutes from './routes/api/v1/auth';
-
-// Getting API Port
-const UFAKPARK_API_PORT = process.env.UFAKPARK_API_PORT || 5000;
+// Importing routes
+const usersRoutes = require('./routes/users-routes');
 
 const app = express();
 
-// CORS Middleware
-app.use(cors());
-
-// Parser
 app.use(express.json());
 
-// Getting MongoDB Conenction String
-const UFAKPARK_MONGO_CONN = process.env.UFAKPARK_MONGO_CONN;
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, DELETE'
+  );
+  next();
+});
 
-// Setting MongoDB Connection Options
-const options = {
+// Users Routes
+app.use('/api/users', usersRoutes);
+
+// Unknown Route
+app.use((req, res) => {
+  res.status(404).json({ msg: 'Could not find this route' });
+});
+
+// DB Connection and listening . . .
+mongoose
+  .connect(UP_DB_CONN, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
-};
-
-// Connecting MongoDB 
-mongoose.connect(UFAKPARK_MONGO_CONN, options)
-        .then(function(){
-            console.log(`Database connection is established.`);
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-
-// Routes
-app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/auth', authRoutes);
-
-// Listening on port=?
-app.listen(UFAKPARK_API_PORT, function() {
-    console.log(`Server started on port ${UFAKPARK_API_PORT}`);
-});
+  })
+  .then(() => {
+    app.listen(UP_API_PORT, () => {
+      console.log(`Database connection is established. Server is running on port '${UP_API_PORT}'`);
+    });
+  })
+  .catch((err) => {
+    console.log(`Error occured while connecting database and server could not start\n\n${err}`);
+  });

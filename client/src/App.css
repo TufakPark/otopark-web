@@ -1,3 +1,75 @@
-.App {
-    height: 100vh;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+/* reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: #2199df;
+    text-decoration: none;
+}
+
+ul {
+    margin-left: 1.5rem;
+    list-style: none;
+}
+
+button,
+input[type="submit"] {
+    border: none;
+    background: none;
+    color: unset;
+    cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+ol {
+    margin: 1em 0;
+}
+
+/* general */
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+/* Header */
+#header {
+    height: 50px;
+    background-color: #193241;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header .title {
+    margin: 0;
+    color: #ccc;
+    padding: 0 1rem;
+}
+
+#header .auth-options {
+    height: 100%;
+    display: flex;
+}
+
+#header .auth-options button {
+    padding: 0 2rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+#header .auth-options button:hover {
+    background-color: #192a35;
 }

@@ -1,66 +1,48 @@
+import React, { useState, useEffect } from 'react';
+
 import './App.css';
 
-import React, { useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import {
-  Card, CardText, CardBody, CardTitle, CardDeck,
-  Collapse,
-  Navbar, NavbarToggler, NavbarBrand, Nav,
-  NavItem, NavLink,
-  Row
-} from 'reactstrap';
+import axios from 'axios';
 
-function App() {
-  const [isOpen, setIsOpen] = useState(false);
+import Header from './components/layout/Header';
 
-  const toggle = () => setIsOpen(!isOpen);
+import Home from './components/pages/Home';
+
+import SignUp from './components/auth/SignUp';
+import Login from './components/auth/Login';
+
+import UserContext from './context/UserContext';
+
+export default function App() {
+
+  const [userData, setUserData] = useState({
+    token: undefined,
+    user: undefined
+  });
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const token = localStorage.getItem("auth-token");
+      const tokenResponse = await axios.post()
+    };
+
+    checkLogin();
+  }, []);
 
   return (
-    <div className="App">
-      <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">UfakPark</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/signup/">Kayıt Ol</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/login/">Giriş Yap</NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Navbar>
-      <Row className="d-flex justify-content-center align-items-center h-75 w-100">
-        <CardDeck>
-          <Card>
-            <CardBody>
-              <CardTitle tag="h5">Ücretli Otopark</CardTitle>
-              <CardText>Ücretli Otoparklar Hakkında Kısa Bir Bilgi</CardText>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardBody>
-              <CardTitle tag="h5">Gümüş Paket</CardTitle>
-              <CardText>Gümüş Paket Hakkında Kısa Bir Bilgi</CardText>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardBody>
-              <CardTitle tag="h5">Altın Paket</CardTitle>
-              <CardText>Altın Paket Hakkında Kısa Bir Bilgi</CardText>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardBody>
-              <CardTitle tag="h5">Elmas Paket</CardTitle>
-              <CardText>Elmas Paket Hakkında Kısa Bir Bilgi</CardText>
-            </CardBody>
-          </Card>
-        </CardDeck>
-      </Row>
-    </div>
+    <>
+      <BrowserRouter>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </UserContext.Provider>
+      </BrowserRouter>
+    </>
   );
 }
-
-export default App;

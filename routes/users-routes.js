@@ -5,7 +5,9 @@ const { check } = require('express-validator');
 
 const usersControllers = require('../controllers/users-controllers');
 
-const { getUsersController, signupController, loginController, tokenValidationController } = usersControllers;
+const auth = require('../middleware/auth');
+
+const { getUsersController, signupController, loginController, tokenValidationController, getOneUserController } = usersControllers;
 
 router.get('/', getUsersController);
 
@@ -30,5 +32,7 @@ router.post('/signup',
 router.post('/login', loginController);
 
 router.post('/tokenvalid', tokenValidationController);
+
+router.get('/getuser', auth, getOneUserController);
 
 module.exports = router;

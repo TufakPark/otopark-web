@@ -155,4 +155,18 @@ const tokenValidationController = async (req, res) => {
   }
 };
 
-module.exports = { getUsersController, signupController, loginController, tokenValidationController };
+const getOneUserController = async (req, res) => {
+  try {
+    const user = await User.findById(req.user);
+    return res.json({
+      id: user._id,
+      email: user.email,
+      places: user.places,
+      registerdate: user.registerdate
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { getUsersController, signupController, loginController, tokenValidationController, getOneUserController };

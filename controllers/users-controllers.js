@@ -12,7 +12,7 @@ const getUsersController = async (req, res) => {
   try {
     users = await User.find({}, '-password');
   } catch (err) {
-    return res.status(500).json({ msg: 'Could not find users' });
+    return res.status(500).json({ msg: 'Kullanıcı Bulunamadı' });
   }
 
   res.status(200).json({
@@ -27,7 +27,7 @@ const signupController = async (req, res) => {
     const extractedErrors = []
     errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
 
-    return res.status(422).json({ msg: 'Invalid inputs', errors: extractedErrors });
+    return res.status(422).json({ msg: 'Geçersiz Girdi', errors: extractedErrors });
   }
 
   const { email, password, passwordConfirmation } = req.body;
@@ -37,11 +37,11 @@ const signupController = async (req, res) => {
   try {
     isUserExist = await User.findOne({ email: email });
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while searching user' });
+    return res.status(500).json({ msg: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
   }
 
   if (isUserExist) {
-    return res.status(422).json({ msg: 'User already exists' });
+    return res.status(422).json({ msg: 'Kullanıcı zaten var' });
   }
 
   let hashedPassword;
@@ -49,7 +49,7 @@ const signupController = async (req, res) => {
   try {
     hashedPassword = await bcrypt.hash(password, 10);
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while hashing password' });
+    return res.status(500).json({ msg: '<Şifre oluşturma> sırasında hata meydana geldi' });
   }
 
   const newUser = new User({
@@ -60,7 +60,7 @@ const signupController = async (req, res) => {
   try {
     await newUser.save();
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while saving the new user' });
+    return res.status(500).json({ msg: '<Kullanıcı kaydet> sırasında hata meydana geldi' });
   }
 
   let token;
@@ -74,7 +74,7 @@ const signupController = async (req, res) => {
         expiresIn: 3600
       });
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while tokenization' });
+    return res.status(500).json({ msg: '<Token oluşturma> sırasında hata meydana geldi' });
   }
 
   res.status(200).json({
@@ -94,11 +94,11 @@ const loginController = async (req, res) => {
   try {
     user = await User.findOne({ email: email });
   } catch (err) {
-    return res.status(422).json({ msg: 'Error occured while checking the email' });
+    return res.status(422).json({ msg: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
   }
 
   if (!user) {
-    return res.status(401).json({ msg: 'Could not identify the user, check your credentials' });
+    return res.status(401).json({ msg: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
   }
 
   let isPasswordValid = false;
@@ -106,11 +106,11 @@ const loginController = async (req, res) => {
   try {
     isPasswordValid = await bcrypt.compare(password, user.password);
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while checking password' });
+    return res.status(500).json({ msg: '<Şifre karşılaştırma> sırasında hata meydana geldi' });
   }
 
   if (!isPasswordValid) {
-    return res.status(403).json({ msg: 'Could not login, check your credentials' });
+    return res.status(403).json({ msg: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
   }
 
   let token;
@@ -125,7 +125,7 @@ const loginController = async (req, res) => {
         expiresIn: 3600
       })
   } catch (err) {
-    return res.status(500).json({ msg: 'Error occured while tokenization' });
+    return res.status(500).json({ msg: '<Token oluşturma> sırasında hata meydana geldi' });
   }
 
   res.status(200).json({

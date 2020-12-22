@@ -83,6 +83,22 @@ body {
     background-color: #192a35;
 }
 
+#header .profile {
+    margin-left: auto;
+    height: 100%;
+    display: flex;
+}
+
+#header .profile button {
+    padding: 0 2rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+#header .profile button:hover {
+    background-color: #192a35;
+}
+
 /* form */
 
 .form label,
@@ -135,14 +151,6 @@ body {
     height: 20px;
     border-radius: 50%;
     color: #ffffff;
-}
-
-.success-notice {
-    background-color: #aefa9a;
-}
-
-.success-notice button {
-    background-color: #dafcd0;
 }
 
 .error-notice {

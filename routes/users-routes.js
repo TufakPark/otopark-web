@@ -7,7 +7,7 @@ const usersControllers = require('../controllers/users-controllers');
 
 const auth = require('../middleware/auth');
 
-const { getUsersController, signupController, loginController, tokenValidationController, getOneUserController } = usersControllers;
+const { getUsersController, signupController, loginController, tokenValidationController, getOneUserController, updateUserController } = usersControllers;
 
 router.get('/', getUsersController);
 
@@ -34,5 +34,7 @@ router.post('/login', loginController);
 router.post('/tokenvalid', tokenValidationController);
 
 router.get('/getuser', auth, getOneUserController);
+
+router.post('/update', auth, updateUserController);
 
 module.exports = router;

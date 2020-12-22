@@ -169,4 +169,22 @@ const getOneUserController = async (req, res) => {
   }
 };
 
-module.exports = { getUsersController, signupController, loginController, tokenValidationController, getOneUserController };
+const updateUserController = async (req, res) => {
+
+  // TODO: check body if its empty
+  // TODO: check password and passwordConfirmation
+
+  User.findByIdAndUpdate(req.body._id, req.body, { new: true })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ msg: 'Kullanıcı bulunamadı' });
+      }
+
+      res.status(200).send({ msg: 'Kullanıcı başarılı bir şekilde güncellendi' });
+    })
+    .catch((err) => {
+      return res.status(500).send({ msg: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });
+    });
+};
+
+module.exports = { getUsersController, signupController, loginController, tokenValidationController, getOneUserController, updateUserController };

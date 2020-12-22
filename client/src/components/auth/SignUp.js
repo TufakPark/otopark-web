@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 import UserContext from "../../context/UserContext";
-import axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
 export default function SignUp() {

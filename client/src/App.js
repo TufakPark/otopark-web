@@ -9,7 +9,7 @@ import axios from 'axios';
 import Header from './components/layout/Header';
 
 import Home from './components/pages/Home';
-
+import Profile from './components/pages/Profile';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 
@@ -62,6 +62,7 @@ export default function App() {
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route path="/profile" component={Profile} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
           </Switch>

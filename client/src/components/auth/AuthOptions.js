@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import { useHistory } from 'react-router-dom';
 
 import UserContext from "../../context/UserContext";
@@ -18,6 +17,7 @@ export default function AuthOptions() {
     });
 
     localStorage.setItem("auth-token", "");
+    history.push("/");
   };
 
   return (

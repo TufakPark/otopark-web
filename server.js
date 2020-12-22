@@ -40,7 +40,8 @@ mongoose
   .connect(UP_DB_CONN, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then(() => {
     app.listen(UP_API_PORT, () => {

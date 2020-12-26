@@ -8,6 +8,8 @@ const cors = require('cors');
 
 // Importing routes
 const usersRoutes = require('./routes/users-routes');
+const parksRoutes = require('./routes/parking-routes');
+const rentsRoutes = require('./routes/renting-routes');
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(cors());
 
 // Users Routes
 app.use('/api/users', usersRoutes);
+app.use('/api/parks', parksRoutes);
+app.use('/api/rents', rentsRoutes);
 
 // Unknown Route
 app.use((req, res) => {

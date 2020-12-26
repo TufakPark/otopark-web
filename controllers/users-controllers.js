@@ -180,7 +180,12 @@ const updateUserController = async (req, res) => {
         return res.status(404).send({ msg: 'Kullanıcı bulunamadı' });
       }
 
-      res.status(200).send({ msg: 'Kullanıcı başarılı bir şekilde güncellendi' });
+      return res.status(200).send({
+        user: {
+          id: user.id,
+          email: user.email
+        }
+      });
     })
     .catch((err) => {
       return res.status(500).send({ msg: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });

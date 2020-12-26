@@ -99,7 +99,48 @@ body {
     background-color: #192a35;
 }
 
+.map-container {
+    display: flex;
+    margin: 2rem auto;
+    width: 100%;
+    height: 87vh;
+    padding: 0 2rem;
+}
+
+.map-search {
+    height: 100%;
+    width: 40%;
+    border: 0.5px solid #ccc;
+    border-radius: 10px;
+    margin-right: 0.3rem;
+    padding: 1rem;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    border: 0.5px solid #ccc;
+    border-radius: 10px;
+    margin-left: 0.3rem;
+}
+
+/* profile */
+.profile-page {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.margin-10 {
+    margin: 0 10px;
+}
+
 /* form */
+.profile-form {
+    width: 50%;
+}
 
 .form label,
 .form input {
@@ -113,7 +154,9 @@ body {
 }
 .form input[type="text"],
 .form input[type="email"],
-.form input[type="password"] {
+.form input[type="password"],
+.form input[type="name"],
+.form input[type="phonenumber"] {
     width: 100%;
     padding: 0.3rem;
     border: 1px solid #c2c2c2;
@@ -121,6 +164,27 @@ body {
     background-color: #f0f0f0;
     font-size: 1.1rem;
 }
+
+.form input[type="text"],
+.form input[type="name"],
+.form input[type="address"],
+.form input[type="capacity"],
+.form input[type="cartype"],
+.form input[type="price"],
+.form input[type="subscription"],
+.form input[type="availabletimes"] {
+    width: 100%;
+    padding: 0.3rem;
+    border: 1px solid #c2c2c2;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    font-size: 1.1rem;
+}
+
+.form input[placeholder] {
+    font-size: 16px;
+}
+
 .form input:focus {
     border: 1px solid #50a4e9;
     box-shadow: inset 0px 0px 5px rgba(38, 142, 228, 0.5);
@@ -133,6 +197,16 @@ body {
     border-radius: 8px;
     background-color: #c8ecb7;
     font-size: 1.1rem;
+}
+
+/* card-page */
+.card-page {
+    display: flex;
+    justify-content: center;
+}
+
+.card-page .card {
+    padding: 0 2rem;
 }
 
 /* notice */

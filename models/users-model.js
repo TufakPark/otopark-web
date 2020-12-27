@@ -17,12 +17,6 @@ const UserSchema = mongoose.Schema({
   phonenumber: {
     type: String
   },
-  places: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'Place'
-    }
-  ],
   registerdate: {
     type: Date,
     default: Date.now

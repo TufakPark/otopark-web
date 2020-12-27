@@ -151,7 +151,7 @@ const tokenValidationController = async (req, res) => {
     return res.json(true);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -165,7 +165,7 @@ const getOneUserController = async (req, res) => {
       registerdate: user.registerdate
     })
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -177,10 +177,10 @@ const updateUserController = async (req, res) => {
   User.findByIdAndUpdate(req.body._id, req.body, { new: true })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ msg: 'Kullanıcı bulunamadı' });
+        return res.status(404).json({ msg: 'Kullanıcı bulunamadı' });
       }
 
-      return res.status(200).send({
+      return res.status(200).json({
         user: {
           id: user.id,
           email: user.email
@@ -188,7 +188,7 @@ const updateUserController = async (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(500).send({ msg: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });
+      return res.status(500).json({ msg: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });
     });
 };
 

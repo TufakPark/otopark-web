@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const RentingSchema = mongoose.Schema({
-  userid: { type: mongoose.Types.ObjectId, required: true },
-  parkid: { type: mongoose.Types.ObjectId, required: true },
-  date: { type: Date, default: Date.now, },
+  userid: { type: mongoose.Schema.Types.ObjectId, required: true },
+  parkid: { type: mongoose.Schema.Types.ObjectId, required: true },
+  date: { type: Date, required: true, },
   price: { type: Number, required: true }
 });
 

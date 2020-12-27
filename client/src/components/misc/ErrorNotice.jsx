@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 export default function ErrorNotice(props) {
   return (
-    <div className="notice error-notice">
+    <div className='notice error-notice'>
       <span>{props.message}</span>
       <button onClick={props.clearError}>X</button>
     </div>

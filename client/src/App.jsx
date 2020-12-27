@@ -16,38 +16,32 @@ import Login from './components/auth/Login';
 import UserContext from './context/UserContext';
 
 export default function App() {
-
   const [userData, setUserData] = useState({
     token: undefined,
-    user: undefined
+    user: undefined,
   });
 
   useEffect(() => {
     const checkLogin = async () => {
-      let token = localStorage.getItem("auth-token");
+      let token = localStorage.getItem('auth-token');
 
       if (token === null) {
-        localStorage.setItem("auth-token", "");
-        token = "";
+        localStorage.setItem('auth-token', '');
+        token = '';
       }
 
-      const tokenResponse = await axios.post(
-        "/users/tokenvalid",
-        null,
-        {
-          headers: { "x-auth-token": token }
-        });
+      const tokenResponse = await axios.post('/users/tokenvalid', null, {
+        headers: { 'x-auth-token': token },
+      });
 
       if (tokenResponse.data) {
-        const userResponse = await axios.get(
-          "/users/getuser",
-          {
-            headers: { "x-auth-token": token }
-          });
+        const userResponse = await axios.get('/users/getuser', {
+          headers: { 'x-auth-token': token },
+        });
 
         setUserData({
           token,
-          user: userResponse.data
+          user: userResponse.data,
         });
       }
     };
@@ -61,10 +55,10 @@ export default function App() {
         <UserContext.Provider value={{ userData, setUserData }}>
           <Header />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={Login} />
+            <Route exact path='/' component={Home} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/signup' component={SignUp} />
+            <Route path='/login' component={Login} />
           </Switch>
         </UserContext.Provider>
       </BrowserRouter>

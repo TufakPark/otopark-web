@@ -38,10 +38,8 @@ const postParkingController = async (req, res) => {
 
     await newPark.save();
 
-    res.status(200).json(newPark);
-
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 

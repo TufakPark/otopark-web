@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
 import UserContext from '../../context/UserContext';
+
+import SuccessNotice from '../misc/SuccessNotice';
 import ErrorNotice from '../misc/ErrorNotice';
 
 export default function ProfileForm() {
@@ -14,6 +16,7 @@ export default function ProfileForm() {
   const [phonenumber, setPhoneNumber] = useState();
 
   const [error, setError] = useState();
+  const [success, setSuccess] = useState();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -46,6 +49,8 @@ export default function ProfileForm() {
       setUserData({
         user: updateResponse.data.user,
       });
+
+      setSuccess('Otopark ekleme işlemi başarıyla tamamlandı');
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }
@@ -55,6 +60,12 @@ export default function ProfileForm() {
     <>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
+      )}
+      {success && (
+        <SuccessNotice
+          message={success}
+          clearSuccess={() => setSuccess(undefined)}
+        />
       )}
       <form className='form profile-form' onSubmit={submit}>
         <label htmlFor='update-email'>E-Posta</label>

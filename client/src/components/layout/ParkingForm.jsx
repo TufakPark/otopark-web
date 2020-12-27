@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
 import UserContext from '../../context/UserContext';
+
+import SuccessNotice from '../misc/SuccessNotice';
 import ErrorNotice from '../misc/ErrorNotice';
 
 export default function ParkingForm() {
@@ -18,6 +20,7 @@ export default function ParkingForm() {
   const [endtime, setEndTime] = useState();
 
   const [error, setError] = useState();
+  const [success, setSuccess] = useState();
 
   const getPromisedData = async (data) => {
     const response = await axios.get(
@@ -65,6 +68,8 @@ export default function ParkingForm() {
             },
           })
           .catch((error) => console.log(error.response));
+
+        setSuccess('Otopark ekleme işlemi başarıyla tamamlandı');
       } else {
         setError('Lutfen adresinizi dogru giriniz');
       }
@@ -79,6 +84,12 @@ export default function ParkingForm() {
     <>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
+      )}
+      {success && (
+        <SuccessNotice
+          message={success}
+          clearSuccess={() => setSuccess(undefined)}
+        />
       )}
       <form className='form profile-form' onSubmit={submit}>
         <label htmlFor='parking-name'>Otopark ismi</label>

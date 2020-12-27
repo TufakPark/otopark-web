@@ -29,17 +29,68 @@ export default function LeafletMap() {
   }, []);
 
   const handleClickMarker = (e) => {
-    console.log(e);
-    mapData.parks.forEach((_, idx) => {
-      if (mapData.parks[idx].location.latlng !== undefined) {
+    mapData.parks.forEach((value) => {
+      if (value.location.latlng !== undefined) {
         if (
-          mapData.parks[idx].location.latlng.latitude === e.latlng.lat &&
-          mapData.parks[idx].location.latlng.longitude === e.latlng.lng
+          value.location.latlng.latitude === e.latlng.lat &&
+          value.location.latlng.longitude === e.latlng.lng
         ) {
-          setMarkerData((previous) => mapData.parks[idx]);
+          setMarkerData((previous) => value);
         }
       }
     });
+  };
+
+  const handleSearchChange = () => {};
+
+  const renderSearchResult = () => {
+    return markerData ? (
+      <>
+        <div className='values'>
+          <div className='data-name-price'>
+            <div>
+              <h3 className='map-text'>Otopark Adı</h3>
+              <h4 className='map-text'>{markerData.name}</h4>
+            </div>
+            <div>
+              <h3 className='map-text'>Ücret</h3>
+              <h4 className='map-text'>{markerData.price}₺</h4>
+            </div>
+          </div>
+          <br />
+          <h3 className='map-text'>Günler - Saatler</h3>
+          {markerData.availabletimes.map((value, idx) => {
+            return (
+              <h4 className='map-text' key={`item-${idx}`}>
+                {value.day}{' '}
+                <span className='map-text ml-auto'>
+                  {value.times[0]}-{value.times[1]}
+                </span>
+              </h4>
+            );
+          })}
+          <br />
+          <h3 className='map-text'>Yorumlar</h3>
+          {markerData.comments.length === 0 ? (
+            <h5 className='map-text'>Henüz bir yorum yapılmamış</h5>
+          ) : (
+            markerData.comments.map((value, idx) => {
+              return (
+                <h4 className='map-text' key={`item-${idx}`}>
+                  {value}
+                </h4>
+              );
+            })
+          )}
+        </div>
+        <button className='search-rent-button'>Kirala</button>
+      </>
+    ) : (
+      <h6 className='map-text'>
+        Gösterilecek Otopark Bilgisi Bulunmamaktadır. Arama yapınız veya
+        haritadaki işaretli yerlere tıklayınız.
+      </h6>
+    );
   };
 
   // TODO: will get this data from the api
@@ -49,15 +100,15 @@ export default function LeafletMap() {
   return (
     <div className='map-container'>
       <div className='map-search'>
-        <h5>TODO: Bilgiler veritabanından alınıp burada gösterilecek</h5>
-        <h6>(SEARCH BOX)Arama yeri</h6>
-        <hr />
-        <h6>(TEXT)Otopark adı</h6>
-        <h6>(IMAGES)Varsa Resimleri</h6>
-        <h6>(DATE)Uygun Oldugu Saat ve Günler</h6>
-        <h6>(TEXT)Saatlik ücreti</h6>
-        <h6>(LOTS OF TEXTS)Yorumları - Yıldız Sayısı</h6>
-        <h6>(BUTTON)Tarih seçtikten sonra, Ödeme butonu</h6>
+        <hr className='mtb-1r-2r' />
+        <input
+          className='map-search-input'
+          type='text'
+          placeholder='Otopark ara...'
+          onChange={handleSearchChange}
+        />
+        <hr className='mtb-2r' />
+        {renderSearchResult()}
       </div>
       <MapContainer id='map' center={defaultLatLng} zoom={zoom}>
         <TileLayer
@@ -65,13 +116,13 @@ export default function LeafletMap() {
           attribution={leafletMap.attribution}
         ></TileLayer>
         {mapData
-          ? mapData.parks.map((position, idx) =>
-              mapData.parks[idx].location.latlng ? (
+          ? mapData.parks.map((value, idx) =>
+              value.location.latlng ? (
                 <Marker
                   key={`marker-${idx}`}
                   position={[
-                    mapData.parks[idx].location.latlng.latitude,
-                    mapData.parks[idx].location.latlng.longitude,
+                    value.location.latlng.latitude,
+                    value.location.latlng.longitude,
                   ]}
                   eventHandlers={{
                     click: (e) => {
@@ -80,7 +131,7 @@ export default function LeafletMap() {
                   }}
                 >
                   <Popup>
-                    <span>{mapData.parks[idx].price}₺</span>
+                    <span>{value.price}₺</span>
                   </Popup>
                 </Marker>
               ) : null

@@ -119,9 +119,81 @@ body {
 #map {
   height: 100%;
   width: 100%;
-  border: 0.5px solid #ccc;
+  border: 1px solid #193241;
   border-radius: 10px;
   margin-left: 0.3rem;
+}
+
+.map-search {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #193241;
+  color: #fff;
+  padding: 1.5rem;
+}
+
+.map-search-title {
+  width: 100%;
+  text-align: center;
+}
+
+.map-search-input {
+  display: block;
+  width: 100%;
+  padding: 0.3rem;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  font-size: 1.1rem;
+}
+
+.map-search-input:focus {
+  border: 1px solid #50a4e9;
+  box-shadow: inset 0px 0px 5px rgba(38, 142, 228, 0.5);
+  outline: none;
+}
+
+.map-text {
+  font-weight: lighter;
+  text-align: center;
+}
+
+.values {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.data-name-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-rent-button {
+  margin-top: auto;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+}
+
+.search-rent-button:hover {
+  background-color: #192a35;
+}
+
+.mtb-1r-2r {
+  margin: 1rem 0 2rem 0;
+}
+
+.mtb-2r {
+  margin: 2rem 0;
+}
+
+.ml-auto {
+  margin-left: 50%;
 }
 
 /* profile */
@@ -231,4 +303,12 @@ body {
 
 .error-notice button {
   background-color: #df4343;
+}
+
+.success-notice {
+  background-color: #d6f8e4;
+}
+
+.success-notice button {
+  background-color: #43df6a;
 }

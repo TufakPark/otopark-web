@@ -1,13 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import UserContext from '../../context/UserContext';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 export default function LeafletMap() {
-  const { userData } = useContext(UserContext);
-
   const [mapData, setMapData] = useState();
+  const [markerData, setMarkerData] = useState();
 
   const leafletMap = {
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -15,13 +13,34 @@ export default function LeafletMap() {
       '&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors',
   };
 
-  /*const getPromisedData = async () => {
-    const response = await axios.get("https://nominatim.openstreetmap.org/search?q=eskisehir+ugurbey+sokak+25&format=json&polygon=1&addressdetails=1");
+  useEffect(() => {
+    const getMapDataFromDB = async () => {
+      const mapDataFromDB = await axios.get('/parks', {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': localStorage.getItem('auth-token'),
+        },
+      });
 
-    console.log(response.data[0].lat);
-  };*/
+      setMapData(mapDataFromDB.data);
+    };
 
-  /* getPromisedData();*/
+    getMapDataFromDB();
+  }, []);
+
+  const handleClickMarker = (e) => {
+    console.log(e);
+    mapData.parks.forEach((_, idx) => {
+      if (mapData.parks[idx].location.latlng !== undefined) {
+        if (
+          mapData.parks[idx].location.latlng.latitude === e.latlng.lat &&
+          mapData.parks[idx].location.latlng.longitude === e.latlng.lng
+        ) {
+          setMarkerData((previous) => mapData.parks[idx]);
+        }
+      }
+    });
+  };
 
   // TODO: will get this data from the api
   const defaultLatLng = [39.753969419858294, 30.494613058147163];
@@ -38,13 +57,35 @@ export default function LeafletMap() {
         <h6>(DATE)Uygun Oldugu Saat ve Günler</h6>
         <h6>(TEXT)Saatlik ücreti</h6>
         <h6>(LOTS OF TEXTS)Yorumları - Yıldız Sayısı</h6>
-        <h6>(BUTTON)Tarih seçtikten sonra > Ödeme butonu</h6>
+        <h6>(BUTTON)Tarih seçtikten sonra, Ödeme butonu</h6>
       </div>
       <MapContainer id='map' center={defaultLatLng} zoom={zoom}>
         <TileLayer
           url={leafletMap.url}
           attribution={leafletMap.attribution}
         ></TileLayer>
+        {mapData
+          ? mapData.parks.map((position, idx) =>
+              mapData.parks[idx].location.latlng ? (
+                <Marker
+                  key={`marker-${idx}`}
+                  position={[
+                    mapData.parks[idx].location.latlng.latitude,
+                    mapData.parks[idx].location.latlng.longitude,
+                  ]}
+                  eventHandlers={{
+                    click: (e) => {
+                      handleClickMarker(e);
+                    },
+                  }}
+                >
+                  <Popup>
+                    <span>{mapData.parks[idx].price}₺</span>
+                  </Popup>
+                </Marker>
+              ) : null
+            )
+          : null}
       </MapContainer>
     </div>
   );

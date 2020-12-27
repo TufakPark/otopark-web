@@ -5,11 +5,9 @@ const { check } = require('express-validator');
 
 const rentingControllers = require('../controllers/renting-controllers');
 
-const { getAllRentingController, postRentingController } = rentingControllers;
+const { getAllRentingController, postRentingController, getIDUsingUserParkIDController } = rentingControllers;
 
-const auth = require('../middleware/auth');
-
-router.get('/', auth, getAllRentingController);
+router.get('/', getAllRentingController);
 
 router.post('/add',
   [
@@ -23,7 +21,8 @@ router.post('/add',
       .not()
       .isEmpty()
   ],
-  auth,
   postRentingController);
+
+router.post('/info', getIDUsingUserParkIDController);
 
 module.exports = router;

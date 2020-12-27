@@ -45,4 +45,19 @@ const postRentingController = async (req, res) => {
   }
 };
 
-module.exports = { getAllRentingController, postRentingController };
+const getIDUsingUserParkIDController = async (req, res) => {
+  try {
+    const ids = req.body;
+
+    const exist = await Renting.find(ids);
+    if (exist) {
+      return res.status(200).json({ rents: exist.map((rent) => rent.toObject()) });
+    } else {
+      return res.status(404).json({ msg: 'Bulunamadi' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { getAllRentingController, postRentingController, getIDUsingUserParkIDController };

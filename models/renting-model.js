@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const RentingSchema = mongoose.Schema({
   userid: { type: mongoose.Schema.Types.ObjectId, required: true },
   parkid: { type: mongoose.Schema.Types.ObjectId, required: true },
-  date: { type: Date, required: true, },
+  startdate: { type: Date, required: true, },
+  enddate: { type: Date, required: true, },
   used: { type: Boolean, required: true },
   price: { type: Number, required: true }
 });

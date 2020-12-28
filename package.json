@@ -1,29 +1,29 @@
 {
-    "name": "otopark-web",
-    "version": "1.0.0",
-    "description": "MERN Stack",
-    "main": "server.js",
-    "scripts": {
-        "install:client": "npm install --prefix client",
-        "install:dev": "npm install",
-        "install:all": "npm install && npm install --prefix client",
-        "dev:client": "npm start --prefix client",
-        "dev:server": "nodemon server.js",
-        "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\""
-    },
-    "author": "Tobymeister",
-    "license": "ISC",
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "concurrently": "^5.3.0",
-        "cors": "^2.8.5",
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "express-validator": "^6.8.0",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.11.8"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.6"
-    }
+  "name": "otopark-web",
+  "version": "1.0.0",
+  "description": "MERN Stack",
+  "main": "server.js",
+  "scripts": {
+    "install:client": "npm install --prefix client",
+    "install:server": "npm install",
+    "install:all": "npm install && npm install --prefix client",
+    "dev:client": "npm start --prefix client",
+    "dev:server": "nodemon server.js",
+    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "author": "Tobymeister",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }

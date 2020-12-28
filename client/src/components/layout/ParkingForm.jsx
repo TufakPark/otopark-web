@@ -3,10 +3,7 @@ import axios from 'axios';
 
 import UserContext from '../../context/UserContext';
 
-import SuccessNotice from '../misc/SuccessNotice';
-import ErrorNotice from '../misc/ErrorNotice';
-
-export default function ParkingForm() {
+export default function ParkingForm(props) {
   const { userData } = useContext(UserContext);
 
   const [name, setName] = useState();
@@ -18,9 +15,6 @@ export default function ParkingForm() {
   const [day, setDay] = useState();
   const [starttime, setStartTime] = useState();
   const [endtime, setEndTime] = useState();
-
-  const [error, setError] = useState();
-  const [success, setSuccess] = useState();
 
   const getPromisedData = async (data) => {
     const response = await axios.get(
@@ -69,12 +63,12 @@ export default function ParkingForm() {
           })
           .catch((error) => console.log(error.response));
 
-        setSuccess('Otopark ekleme işlemi başarıyla tamamlandı');
+        props.successMessage('Otopark ekleme işlemi başarıyla tamamlandı');
       } else {
-        setError('Lutfen adresinizi dogru giriniz');
+        props.errorMessage('Lutfen adresinizi dogru giriniz');
       }
     } catch (err) {
-      err.response && setError(err.response);
+      err.response && props.errorMessage(err.response);
     }
   };
 
@@ -82,15 +76,6 @@ export default function ParkingForm() {
 
   return (
     <>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
-      {success && (
-        <SuccessNotice
-          message={success}
-          clearSuccess={() => setSuccess(undefined)}
-        />
-      )}
       <form className='form profile-form' onSubmit={submit}>
         <label htmlFor='parking-name'>Otopark ismi</label>
         <input

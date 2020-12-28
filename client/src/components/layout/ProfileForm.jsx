@@ -3,10 +3,7 @@ import axios from 'axios';
 
 import UserContext from '../../context/UserContext';
 
-import SuccessNotice from '../misc/SuccessNotice';
-import ErrorNotice from '../misc/ErrorNotice';
-
-export default function ProfileForm() {
+export default function ProfileForm(props) {
   const { userData, setUserData } = useContext(UserContext);
 
   const [email, setEmail] = useState();
@@ -14,9 +11,6 @@ export default function ProfileForm() {
   const [passwordConfirmation, setPasswordConfirmation] = useState();
   const [name, setName] = useState();
   const [phonenumber, setPhoneNumber] = useState();
-
-  const [error, setError] = useState();
-  const [success, setSuccess] = useState();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -29,15 +23,13 @@ export default function ProfileForm() {
       if (email) data['email'] = email;
       if (password) {
         if (password !== passwordConfirmation) {
-          setError('Lütfen şifre doğrulama işleminizi doğru yapın');
+          props.errorMessage('Lütfen şifre doğrulama işleminizi doğru yapın');
         } else {
           data['password'] = password;
         }
       }
       if (name) data['name'] = name;
       if (phonenumber) data['phonenumber'] = phonenumber;
-
-      console.log(data);
 
       const updateResponse = await axios.post('/users/update', data, {
         headers: {
@@ -50,23 +42,14 @@ export default function ProfileForm() {
         user: updateResponse.data.user,
       });
 
-      setSuccess('Otopark ekleme işlemi başarıyla tamamlandı');
+      props.successMessage('Otopark ekleme işlemi başarıyla tamamlandı');
     } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
+      err.response.data.msg && props.errorMessage(err.response.data.msg);
     }
   };
 
   return (
     <>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
-      {success && (
-        <SuccessNotice
-          message={success}
-          clearSuccess={() => setSuccess(undefined)}
-        />
-      )}
       <form className='form profile-form' onSubmit={submit}>
         <label htmlFor='update-email'>E-Posta</label>
         <input

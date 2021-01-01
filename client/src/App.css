@@ -103,7 +103,7 @@ body {
   display: flex;
   margin: 2rem auto;
   width: 100%;
-  height: 70vh;
+  height: 85vh;
   padding: 0 2rem;
 }
 
@@ -152,20 +152,22 @@ body {
   outline: none;
 }
 
-.map-text {
-  font-weight: lighter;
-  text-align: center;
-}
-
 .values {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: sticky;
 }
 
-.data-name-price {
+.data-name-price-date {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+.data-date {
+  height: 100%;
+  width: 50%;
 }
 
 .search-rent-button {
@@ -176,10 +178,38 @@ body {
   font-size: 1.1rem;
   transition: all 0.3s ease;
   letter-spacing: 0.1em;
+  background-color: #ccc;
 }
 
 .search-rent-button:hover {
-  background-color: #192a35;
+  background-color: rgb(172, 172, 172);
+}
+
+.search-result-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.search-result-date input {
+  width: 50%;
+  padding: 0.5rem;
+  border: 0.3px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.search-result-date input:focus {
+  border: 1px solid #50a4e9;
+  box-shadow: inset 0px 0px 5px rgba(38, 142, 228, 0.5);
+  outline: none;
+}
+
+.search-result-time {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
 }
 
 .mtb-1r-2r {
@@ -191,7 +221,7 @@ body {
 }
 
 .ml-auto {
-  margin-left: 50%;
+  margin-left: 10%;
 }
 
 /* profile */

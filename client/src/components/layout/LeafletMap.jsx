@@ -47,41 +47,54 @@ export default function LeafletMap() {
     return markerData ? (
       <>
         <div className='values'>
-          <div className='data-name-price'>
-            <div>
-              <h3 className='map-text'>Otopark Adı</h3>
-              <h4 className='map-text'>{markerData.name}</h4>
+          <div className='data-name-price-date'>
+            <div className='data-name-price'>
+              <div className='data-name'>
+                <h4>Otopark Adı</h4>
+                <h5>{markerData.name}</h5>
+              </div>
+              <div className='data-price'>
+                <h4>Ücret</h4>
+                <h5>{markerData.price}₺</h5>
+              </div>
             </div>
-            <div>
-              <h3 className='map-text'>Ücret</h3>
-              <h4 className='map-text'>{markerData.price}₺</h4>
+            <div className='data-date'>
+              <h4>Günler - Saatler</h4>
+              {markerData.availabletimes.map((value, idx) => {
+                return (
+                  <>
+                    <h5 key={`item-${idx}`}>
+                      {value.day}{' '}
+                      <span className='ml-auto'>
+                        {value.times[0]}-{value.times[1]}
+                      </span>
+                    </h5>
+                  </>
+                );
+              })}
             </div>
           </div>
           <br />
-          <h3 className='map-text'>Günler - Saatler</h3>
-          {markerData.availabletimes.map((value, idx) => {
-            return (
-              <h4 className='map-text' key={`item-${idx}`}>
-                {value.day}{' '}
-                <span className='map-text ml-auto'>
-                  {value.times[0]}-{value.times[1]}
-                </span>
-              </h4>
-            );
-          })}
-          <br />
-          <h3 className='map-text'>Yorumlar</h3>
+          <h4>Yorumlar</h4>
           {markerData.comments.length === 0 ? (
-            <h5 className='map-text'>Henüz bir yorum yapılmamış</h5>
+            <h6>Henüz bir yorum yapılmamıştır</h6>
           ) : (
             markerData.comments.map((value, idx) => {
               return (
-                <h4 className='map-text' key={`item-${idx}`}>
+                <h5 className='map-text' key={`item-${idx}`}>
                   {value}
-                </h4>
+                </h5>
               );
             })
           )}
+        </div>
+        <br />
+        <div className='search-result-date'>
+          <input placeholder='Kiralamak istediğiniz günü yazınız' />
+          <div className='search-result-time'>
+            <input placeholder='Başlangıç Saati | Örnek: 11:30' />
+            <input placeholder='Bitiş Saati | Örnek: 15:00' />
+          </div>
         </div>
         <button className='search-rent-button'>Kirala</button>
       </>

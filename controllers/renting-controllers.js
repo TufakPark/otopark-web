@@ -50,13 +50,44 @@ const postRentingController = async (req, res) => {
       Parking.findByIdAndUpdate(
         { _id: req.body.parkid },
         { $inc: { carsnumber: 1 } },
-        { new: true }).exec().then((response) => {
+        { new: true })
+        .exec()
+        .then((response) => {
           res.status(200).json({
             rent: newRent,
             park: response
           });
         });
     });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const postUsedRentByRentIDController = async (req, res) => {
+  try {
+    const id = req.body.id;
+
+    await Renting.findByIdAndUpdate(
+      { _id: id },
+      {
+        used: true
+      },
+      { new: true })
+      .exec()
+      .then((response) => {
+        Parking.findByIdAndUpdate(
+          { _id: response.parkid },
+          { $inc: { carsnumber: -1 } },
+          { new: true })
+          .exec()
+          .then(() => {
+            res.status(200).json({
+              rent: response
+            });
+          });
+      });
 
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -93,4 +124,4 @@ const getRentInfoUsingRentIDController = async (req, res) => {
   }
 };
 
-module.exports = { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController };
+module.exports = { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController, postUsedRentByRentIDController };

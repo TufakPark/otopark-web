@@ -33,7 +33,7 @@ router.post('/login', loginController);
 
 router.post('/tokenvalid', tokenValidationController);
 
-router.get('/getuser', auth, getOneUserController);
+router.post('/getuser', auth, getOneUserController);
 
 router.post('/update', auth, updateUserController);
 

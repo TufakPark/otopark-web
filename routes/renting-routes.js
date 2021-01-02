@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 
 const rentingControllers = require('../controllers/renting-controllers');
 
-const { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController } = rentingControllers;
+const { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController, postUsedRentByRentIDController } = rentingControllers;
 
 router.get('/', getAllRentingController);
 
@@ -22,6 +22,8 @@ router.post('/add',
       .isEmpty()
   ],
   postRentingController);
+
+router.post('/disabled', postUsedRentByRentIDController);
 
 router.post('/info', getIDUsingUserParkIDController);
 

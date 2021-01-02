@@ -12,7 +12,7 @@ const getAllParkingController = async (req, res) => {
       parks: parks.map((park) => park.toObject())
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -39,7 +39,7 @@ const postParkingController = async (req, res) => {
     await newPark.save();
 
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 

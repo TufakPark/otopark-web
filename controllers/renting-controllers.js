@@ -1,4 +1,5 @@
 const Renting = require('../models/renting-model');
+const Parking = require('../models/parking-model');
 
 const { validationResult } = require('express-validator');
 
@@ -12,7 +13,7 @@ const getAllRentingController = async (req, res) => {
       rents: rents.map((rent) => rent.toObject())
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -27,21 +28,38 @@ const postRentingController = async (req, res) => {
   }
 
   try {
-    const rent = req.body;
 
-    const isExist = await Renting.findOne(rent);
-    if (isExist) {
+    const isExist = await Renting.findOne({
+      userid: req.body.userid,
+      parkid: req.body.parkid
+    });
+
+    if (isExist && isExist.used === true) {
       return res.status(422).json({ msg: 'Kiralama işlemi zaten mevcut' });
     }
 
-    const newRent = new Renting(rent);
+    const park = await Parking.findById({ _id: req.body.parkid });
 
-    await newRent.save();
+    if (park.carsnumber >= park.capacity) {
+      res.status(500).json({ message: 'Otopark dolu' });
+    }
 
-    res.status(200).json(newRent);
+    const newRent = new Renting(req.body);
+
+    await newRent.save().then(() => {
+      Parking.findByIdAndUpdate(
+        { _id: req.body.parkid },
+        { $inc: { carsnumber: 1 } },
+        { new: true }).exec().then((response) => {
+          res.status(200).json({
+            rent: newRent,
+            park: response
+          });
+        });
+    });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -56,7 +74,7 @@ const getIDUsingUserParkIDController = async (req, res) => {
       return res.status(404).json({ msg: 'Bulunamadi' });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -71,7 +89,7 @@ const getRentInfoUsingRentIDController = async (req, res) => {
       return res.status(404).json({ msg: 'Bulunamadi' });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 

@@ -46,19 +46,19 @@ const postRentingController = async (req, res) => {
 
     const newRent = new Renting(req.body);
 
-    await newRent.save().then(() => {
-      Parking.findByIdAndUpdate(
-        { _id: req.body.parkid },
-        { $inc: { carsnumber: 1 } },
-        { new: true })
-        .exec()
-        .then((response) => {
-          res.status(200).json({
-            rent: newRent,
-            park: response
-          });
+    await newRent.save();
+
+    Parking.findByIdAndUpdate(
+      { _id: req.body.parkid },
+      { $inc: { carsnumber: 1 } },
+      { new: true })
+      .exec()
+      .then((response) => {
+        res.status(200).json({
+          rent: newRent,
+          park: response
         });
-    });
+      });
 
   } catch (err) {
     res.status(500).json({ message: err.message });

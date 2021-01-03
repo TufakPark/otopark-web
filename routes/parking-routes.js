@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 
 const parkingControllers = require('../controllers/parking-controllers');
 
-const { getAllParkingController, postParkingController } = parkingControllers;
+const { getAllParkingController, postParkingController, getParkInfoByIdController } = parkingControllers;
 
 const auth = require('../middleware/auth');
 
@@ -43,5 +43,7 @@ router.post('/add',
   ],
   auth,
   postParkingController);
+
+router.post('/get', getParkInfoByIdController);
 
 module.exports = router;

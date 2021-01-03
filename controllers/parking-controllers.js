@@ -43,4 +43,19 @@ const postParkingController = async (req, res) => {
   }
 };
 
-module.exports = { getAllParkingController, postParkingController };
+const getParkInfoByIdController = async (req, res) => {
+  try {
+    await Parking.findById({ _id: req.body.parkid })
+      .exec()
+      .then((response) => {
+        return res.status(200).json(response);
+      })
+      .catch((error) => {
+        return res.status(404).json({ message: error });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { getAllParkingController, postParkingController, getParkInfoByIdController };

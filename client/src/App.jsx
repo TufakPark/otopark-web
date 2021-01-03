@@ -30,22 +30,31 @@ export default function App() {
         token = '';
       }
 
-      const tokenResponse = await axios.post('/users/tokenvalid', null, {
-        headers: { 'x-auth-token': token },
-      });
-
-      if (tokenResponse.data) {
-        const userResponse = await axios.get('/users/getuser', {
+      await axios
+        .get('/users/tokenvalid', {
           headers: { 'x-auth-token': token },
+        })
+        .then((response) => {
+          if (response.data) {
+            axios
+              .get('/users/getuser', {
+                headers: { 'x-auth-token': token },
+              })
+              .then((response) => {
+                setUserData({
+                  token,
+                  user: response.data,
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
         });
-
-        setUserData({
-          token,
-          user: userResponse.data,
-        });
-      }
     };
-
     checkLogin();
   }, []);
 

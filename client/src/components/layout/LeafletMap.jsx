@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import DateTimePicker from 'react-datetime-picker';
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 export default function LeafletMap() {
   const [mapData, setMapData] = useState();
   const [markerData, setMarkerData] = useState();
+
+  const [startValue, startOnChange] = useState(new Date());
+  const [endValue, endOnChange] = useState(new Date());
 
   const leafletMap = {
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -43,6 +48,16 @@ export default function LeafletMap() {
 
   const handleSearchChange = () => {};
 
+  const handleRentingButton = () => {
+    try {
+      const start = String(startValue).split(' ');
+      const end = String(endValue).split(' ');
+      console.log(start, '\n', end);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const renderSearchResult = () => {
     return markerData ? (
       <>
@@ -62,14 +77,12 @@ export default function LeafletMap() {
               <h4>Günler - Saatler</h4>
               {markerData.availabletimes.map((value, idx) => {
                 return (
-                  <>
-                    <h5 key={`item-${idx}`}>
-                      {value.day}{' '}
-                      <span className='ml-auto'>
-                        {value.times[0]}-{value.times[1]}
-                      </span>
-                    </h5>
-                  </>
+                  <h5 key={`time-key-${idx}`}>
+                    {value.day}{' '}
+                    <span className='ml-auto' key={`time-span-key-${idx}`}>
+                      {value.times[0]}-{value.times[1]}
+                    </span>
+                  </h5>
                 );
               })}
             </div>
@@ -81,7 +94,7 @@ export default function LeafletMap() {
           ) : (
             markerData.comments.map((value, idx) => {
               return (
-                <h5 className='map-text' key={`item-${idx}`}>
+                <h5 className='map-text' key={`comment-key-${idx}`}>
                   {value}
                 </h5>
               );
@@ -89,14 +102,13 @@ export default function LeafletMap() {
           )}
         </div>
         <br />
-        <div className='search-result-date'>
-          <input placeholder='Kiralamak istediğiniz günü yazınız' />
-          <div className='search-result-time'>
-            <input placeholder='Başlangıç Saati | Örnek: 11:30' />
-            <input placeholder='Bitiş Saati | Örnek: 15:00' />
-          </div>
+        <div className='data-start-end-time'>
+          <DateTimePicker onChange={startOnChange} value={startValue} />
+          <DateTimePicker onChange={endOnChange} value={endValue} />
         </div>
-        <button className='search-rent-button'>Kirala</button>
+        <button className='search-rent-button' onClick={handleRentingButton}>
+          Kirala
+        </button>
       </>
     ) : (
       <h6 className='map-text'>
@@ -132,7 +144,7 @@ export default function LeafletMap() {
           ? mapData.parks.map((value, idx) =>
               value.location.latlng ? (
                 <Marker
-                  key={`marker-${idx}`}
+                  key={`marker-key-${idx}`}
                   position={[
                     value.location.latlng.latitude,
                     value.location.latlng.longitude,
@@ -143,8 +155,8 @@ export default function LeafletMap() {
                     },
                   }}
                 >
-                  <Popup>
-                    <span>{value.price}₺</span>
+                  <Popup key={`marker-popup-key-${idx}`}>
+                    <span key={`marker-span-key-${idx}`}>{value.price}₺</span>
                   </Popup>
                 </Marker>
               ) : null

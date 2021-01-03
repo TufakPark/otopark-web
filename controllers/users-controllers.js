@@ -148,7 +148,7 @@ const tokenValidationController = async (req, res) => {
     const user = await User.findById(verified.id);
     if (!user) return res.json(false);
 
-    return res.json(true);
+    return res.status(200).json(true);
 
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -158,7 +158,7 @@ const tokenValidationController = async (req, res) => {
 const getOneUserController = async (req, res) => {
   try {
     const user = await User.findById(req.user);
-    return res.json({
+    return res.status(200).json({
       id: user._id,
       email: user.email,
       places: user.places,

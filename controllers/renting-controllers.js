@@ -141,11 +141,28 @@ const getAllRentsByUserIDController = async (req, res) => {
   }
 };
 
+const getUsedInfoCOntroller = async (req, res) => {
+  try {
+
+    const exist = await Renting.findOne({ _id: req.body._id });
+    console.log(exist);
+    if (exist.used) {
+      return res.status(200).json(true);
+    } else {
+      return res.status(404).json(false);
+    }
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAllRentingController,
   postRentingController,
   getIDUsingUserParkIDController,
   getRentInfoUsingRentIDController,
   postUsedRentByRentIDController,
-  getAllRentsByUserIDController
+  getAllRentsByUserIDController,
+  getUsedInfoCOntroller
 };

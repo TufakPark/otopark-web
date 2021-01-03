@@ -10,7 +10,8 @@ const { getAllRentingController,
   getIDUsingUserParkIDController,
   getRentInfoUsingRentIDController,
   postUsedRentByRentIDController,
-  getAllRentsByUserIDController } = rentingControllers;
+  getAllRentsByUserIDController,
+  getUsedInfoCOntroller } = rentingControllers;
 
 router.get('/', getAllRentingController);
 
@@ -35,5 +36,7 @@ router.post('/info', getIDUsingUserParkIDController);
 router.post('/rentinfo', getRentInfoUsingRentIDController);
 
 router.post('/rentsbyuserid', getAllRentsByUserIDController);
+
+router.post('/usedinfo', getUsedInfoCOntroller);
 
 module.exports = router;

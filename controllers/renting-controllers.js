@@ -145,7 +145,6 @@ const getUsedInfoCOntroller = async (req, res) => {
   try {
 
     const exist = await Renting.findOne({ _id: req.body._id });
-    console.log(exist);
     if (exist.used) {
       return res.status(200).json(true);
     } else {

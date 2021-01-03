@@ -5,7 +5,12 @@ const { check } = require('express-validator');
 
 const rentingControllers = require('../controllers/renting-controllers');
 
-const { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController, postUsedRentByRentIDController } = rentingControllers;
+const { getAllRentingController,
+  postRentingController,
+  getIDUsingUserParkIDController,
+  getRentInfoUsingRentIDController,
+  postUsedRentByRentIDController,
+  getAllRentsByUserIDController } = rentingControllers;
 
 router.get('/', getAllRentingController);
 
@@ -28,5 +33,7 @@ router.post('/disabled', postUsedRentByRentIDController);
 router.post('/info', getIDUsingUserParkIDController);
 
 router.post('/rentinfo', getRentInfoUsingRentIDController);
+
+router.post('/rentsbyuserid', getAllRentsByUserIDController);
 
 module.exports = router;

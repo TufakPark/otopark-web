@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Renting = require('../models/renting-model');
 const Parking = require('../models/parking-model');
 
@@ -41,7 +43,7 @@ const postRentingController = async (req, res) => {
     const park = await Parking.findById({ _id: req.body.parkid });
 
     if (park.carsnumber >= park.capacity) {
-      res.status(500).json({ message: 'Otopark dolu' });
+      return res.status(500).json({ message: 'Otopark dolu' });
     }
 
     const newRent = new Renting(req.body);
@@ -117,11 +119,33 @@ const getRentInfoUsingRentIDController = async (req, res) => {
     if (exist) {
       return res.status(200).json({ rent: exist });
     } else {
-      return res.status(404).json({ msg: 'Bulunamadi' });
+      return res.status(404).json({ message: 'Bulunamadi' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-module.exports = { getAllRentingController, postRentingController, getIDUsingUserParkIDController, getRentInfoUsingRentIDController, postUsedRentByRentIDController };
+const getAllRentsByUserIDController = async (req, res) => {
+  try {
+
+    const exist = await Renting.find({ userid: req.body.userid });
+    if (exist) {
+      return res.status(200).json({ rents: exist.map((rent) => rent.toObject()) });
+    } else {
+      return res.status(404).json({ message: 'Bulunamadi' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  getAllRentingController,
+  postRentingController,
+  getIDUsingUserParkIDController,
+  getRentInfoUsingRentIDController,
+  postUsedRentByRentIDController,
+  getAllRentsByUserIDController
+};

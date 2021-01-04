@@ -36,7 +36,7 @@ const postRentingController = async (req, res) => {
       parkid: req.body.parkid
     });
 
-    if (isExist && isExist.used === true) {
+    if (isExist && isExist.used !== true) {
       return res.status(422).json({ msg: 'Kiralama işlemi zaten mevcut' });
     }
 

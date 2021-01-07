@@ -161,6 +161,7 @@ const getOneUserController = async (req, res) => {
     return res.status(200).json({
       id: user._id,
       email: user.email,
+      name: user.name,
       places: user.places,
       registerdate: user.registerdate
     })
@@ -172,9 +173,18 @@ const getOneUserController = async (req, res) => {
 const updateUserController = async (req, res) => {
 
   // TODO: check body if its empty
-  // TODO: check password and passwordConfirmation
 
-  User.findByIdAndUpdate(req.body._id, req.body, { new: true })
+  if (req.body.password !== req.body.passwordConfirmation) {
+    res.status(400).json({ message: 'Parolaları aynı giriniz' });
+  }
+
+  try {
+    req.body.password = await bcrypt.hash(req.body.password, 10);
+  } catch (err) {
+    return res.status(500).json({ msg: '<Şifre oluşturma> sırasında hata meydana geldi' });
+  }
+
+  User.findByIdAndUpdate(req.user, req.body, { new: true })
     .then((user) => {
       if (!user) {
         return res.status(404).json({ msg: 'Kullanıcı bulunamadı' });
@@ -183,7 +193,8 @@ const updateUserController = async (req, res) => {
       return res.status(200).json({
         user: {
           id: user.id,
-          email: user.email
+          email: user.email,
+          name: user.name
         }
       });
     })

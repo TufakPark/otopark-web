@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator');
 const { UP_JWT_SECRET } = require('../config');
 
 const User = require('../models/users-model');
+const Parking = require('../models/parking-model');
 
 const getUsersController = async (req, res) => {
   let users;
@@ -216,10 +217,16 @@ const postFavouriteParkUserController = async (req, res) => {
 };
 
 const getAllFavouritesParkUserController = async (req, res) => {
-  await User.findById({ _id: req.user }).then((user) => {
-    console.log(user.favourites);
+  const user = await User.findById({ _id: req.user }).then(async (user) => {
+
+    let parks = [];
+
+    for (const park of user.favourites) {
+      parks.push(await Parking.findOne({ _id: park }).exec());
+    }
+
     res.status(200).json({
-      parks: user.favourites
+      parks: parks.map((park => park.toObject()))
     })
   })
     .catch((error) => {

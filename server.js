@@ -36,7 +36,7 @@ app.use('/api/rents', rentsRoutes);
 
 // Unknown Route
 app.use((req, res) => {
-  res.status(404).json({ msg: 'Could not find this route' });
+  res.status(404).json({ message: 'Could not find this route' });
 });
 
 // DB Connection and listening . . .

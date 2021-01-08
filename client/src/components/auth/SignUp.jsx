@@ -29,7 +29,7 @@ export default function SignUp() {
       localStorage.setItem('auth-token', registerResponse.data.token);
       history.push('/');
     } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
+      err.response.data.message && setError(err.response.data.message);
     }
   };
 

@@ -44,7 +44,8 @@ export default function ProfileForm(props) {
 
       props.successMessage('Otopark ekleme işlemi başarıyla tamamlandı');
     } catch (err) {
-      err.response.data.msg && props.errorMessage(err.response.data.msg);
+      err.response.data.message &&
+        props.errorMessage(err.response.data.message);
     }
   };
 

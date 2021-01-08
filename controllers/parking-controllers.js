@@ -6,7 +6,7 @@ const getAllParkingController = async (req, res) => {
   try {
     const parks = await Parking.find();
     if (!parks) {
-      return res.status(404).json({ msg: 'Park bulunamadi' });
+      return res.status(404).json({ message: 'Park bulunamadi' });
     }
     res.status(200).json({
       parks: parks.map((park) => park.toObject())
@@ -21,9 +21,9 @@ const postParkingController = async (req, res) => {
 
   if (!errors.isEmpty()) {
     const extractedErrors = []
-    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.message }))
 
-    return res.status(422).json({ msg: 'Geçersiz Girdi', errors: extractedErrors });
+    return res.status(422).json({ message: 'Geçersiz Girdi', errors: extractedErrors });
   }
 
   try {
@@ -31,7 +31,7 @@ const postParkingController = async (req, res) => {
 
     const isExist = await Parking.findOne({ location: park.location.address });
     if (isExist) {
-      return res.status(422).json({ msg: 'Park zaten mevcut' });
+      return res.status(422).json({ message: 'Park zaten mevcut' });
     }
 
     const newPark = new Parking(park);

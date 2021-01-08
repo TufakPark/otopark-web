@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  favourites: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'Parking'
+  }],
   balance: {
     type: Number
   }

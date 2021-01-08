@@ -7,7 +7,14 @@ const usersControllers = require('../controllers/users-controllers');
 
 const auth = require('../middleware/auth');
 
-const { getUsersController, signupController, loginController, tokenValidationController, getOneUserController, updateUserController } = usersControllers;
+const { getUsersController,
+  signupController,
+  loginController,
+  tokenValidationController,
+  getOneUserController,
+  updateUserController,
+  postFavouriteParkUserController,
+  getAllFavouritesParkUserController } = usersControllers;
 
 router.get('/', getUsersController);
 
@@ -36,5 +43,9 @@ router.get('/tokenvalid', tokenValidationController);
 router.get('/getuser', auth, getOneUserController);
 
 router.post('/update', auth, updateUserController);
+
+router.post('/addfav', auth, postFavouriteParkUserController);
+
+router.get('/getallfav', auth, getAllFavouritesParkUserController);
 
 module.exports = router;

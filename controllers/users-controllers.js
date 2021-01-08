@@ -12,7 +12,7 @@ const getUsersController = async (req, res) => {
   try {
     users = await User.find({}, '-password');
   } catch (err) {
-    return res.status(500).json({ msg: 'Kullanıcı Bulunamadı' });
+    return res.status(500).json({ message: 'Kullanıcı Bulunamadı' });
   }
 
   res.status(200).json({
@@ -25,9 +25,9 @@ const signupController = async (req, res) => {
 
   if (!errors.isEmpty()) {
     const extractedErrors = []
-    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.message }))
 
-    return res.status(422).json({ msg: 'Geçersiz Girdi', errors: extractedErrors });
+    return res.status(422).json({ message: 'Geçersiz Girdi', errors: extractedErrors });
   }
 
   const { email, password, passwordConfirmation } = req.body;
@@ -37,11 +37,11 @@ const signupController = async (req, res) => {
   try {
     isUserExist = await User.findOne({ email: email });
   } catch (err) {
-    return res.status(500).json({ msg: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
   }
 
   if (isUserExist) {
-    return res.status(422).json({ msg: 'Kullanıcı zaten var' });
+    return res.status(422).json({ message: 'Kullanıcı zaten var' });
   }
 
   let hashedPassword;
@@ -49,7 +49,7 @@ const signupController = async (req, res) => {
   try {
     hashedPassword = await bcrypt.hash(password, 10);
   } catch (err) {
-    return res.status(500).json({ msg: '<Şifre oluşturma> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Şifre oluşturma> sırasında hata meydana geldi' });
   }
 
   const newUser = new User({
@@ -60,7 +60,7 @@ const signupController = async (req, res) => {
   try {
     await newUser.save();
   } catch (err) {
-    return res.status(500).json({ msg: '<Kullanıcı kaydet> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Kullanıcı kaydet> sırasında hata meydana geldi' });
   }
 
   let token;
@@ -74,7 +74,7 @@ const signupController = async (req, res) => {
         expiresIn: 3600
       });
   } catch (err) {
-    return res.status(500).json({ msg: '<Token oluşturma> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Token oluşturma> sırasında hata meydana geldi' });
   }
 
   res.status(200).json({
@@ -94,11 +94,11 @@ const loginController = async (req, res) => {
   try {
     user = await User.findOne({ email: email });
   } catch (err) {
-    return res.status(422).json({ msg: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
+    return res.status(422).json({ message: '<Kullanıcı mevcut mu?> sırasında hata meydana geldi' });
   }
 
   if (!user) {
-    return res.status(401).json({ msg: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
+    return res.status(401).json({ message: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
   }
 
   let isPasswordValid = false;
@@ -106,11 +106,11 @@ const loginController = async (req, res) => {
   try {
     isPasswordValid = await bcrypt.compare(password, user.password);
   } catch (err) {
-    return res.status(500).json({ msg: '<Şifre karşılaştırma> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Şifre karşılaştırma> sırasında hata meydana geldi' });
   }
 
   if (!isPasswordValid) {
-    return res.status(403).json({ msg: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
+    return res.status(403).json({ message: 'Mevcut kullanıcı bulunamadı. Girdilerinizi kontrol ediniz' });
   }
 
   let token;
@@ -125,7 +125,7 @@ const loginController = async (req, res) => {
         expiresIn: 3600
       })
   } catch (err) {
-    return res.status(500).json({ msg: '<Token oluşturma> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Token oluşturma> sırasında hata meydana geldi' });
   }
 
   res.status(200).json({
@@ -151,7 +151,7 @@ const tokenValidationController = async (req, res) => {
     return res.status(200).json(true);
 
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -166,7 +166,7 @@ const getOneUserController = async (req, res) => {
       registerdate: user.registerdate
     })
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -181,13 +181,13 @@ const updateUserController = async (req, res) => {
   try {
     req.body.password = await bcrypt.hash(req.body.password, 10);
   } catch (err) {
-    return res.status(500).json({ msg: '<Şifre oluşturma> sırasında hata meydana geldi' });
+    return res.status(500).json({ message: '<Şifre oluşturma> sırasında hata meydana geldi' });
   }
 
   User.findByIdAndUpdate(req.user, req.body, { new: true })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ msg: 'Kullanıcı bulunamadı' });
+        return res.status(404).json({ message: 'Kullanıcı bulunamadı' });
       }
 
       return res.status(200).json({
@@ -199,8 +199,41 @@ const updateUserController = async (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(500).json({ msg: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });
+      return res.status(500).json({ message: '<Kullanıcı güncelleştirme> sırasında hata meydana geldi' });
     });
 };
 
-module.exports = { getUsersController, signupController, loginController, tokenValidationController, getOneUserController, updateUserController };
+const postFavouriteParkUserController = async (req, res) => {
+  await User.findByIdAndUpdate({ _id: req.user }, {
+    $push: { favourites: req.body.parkid }
+  }, { new: true })
+    .then(() => {
+      return res.status(200).json({ message: 'Favorilere eklendi' });
+    })
+    .catch((error) => {
+      return res.status(500).json({ message: error });
+    });
+};
+
+const getAllFavouritesParkUserController = async (req, res) => {
+  await User.findById({ _id: req.user }).then((user) => {
+    console.log(user.favourites);
+    res.status(200).json({
+      parks: user.favourites
+    })
+  })
+    .catch((error) => {
+      return res.status(500).json({ message: error });
+    })
+};
+
+module.exports = {
+  getUsersController,
+  signupController,
+  loginController,
+  tokenValidationController,
+  getOneUserController,
+  updateUserController,
+  postFavouriteParkUserController,
+  getAllFavouritesParkUserController
+};

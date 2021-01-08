@@ -25,7 +25,7 @@ export default function Login() {
       localStorage.setItem('auth-token', loginResponse.data.token);
       history.push('/');
     } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
+      err.response.data.message && setError(err.response.data.message);
     }
   };
 

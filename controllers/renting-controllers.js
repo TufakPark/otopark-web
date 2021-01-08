@@ -9,7 +9,7 @@ const getAllRentingController = async (req, res) => {
   try {
     const rents = await Renting.find();
     if (!rents) {
-      return res.status(404).json({ msg: 'Herhangi bir kiralama işlemi bulunamadı' });
+      return res.status(404).json({ message: 'Herhangi bir kiralama işlemi bulunamadı' });
     }
     res.status(200).json({
       rents: rents.map((rent) => rent.toObject())
@@ -24,9 +24,9 @@ const postRentingController = async (req, res) => {
 
   if (!errors.isEmpty()) {
     const extractedErrors = []
-    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.message }))
 
-    return res.status(422).json({ msg: 'Geçersiz Girdi', errors: extractedErrors });
+    return res.status(422).json({ message: 'Geçersiz Girdi', errors: extractedErrors });
   }
 
   try {
@@ -37,7 +37,7 @@ const postRentingController = async (req, res) => {
     });
 
     if (isExist && isExist.used !== true) {
-      return res.status(422).json({ msg: 'Kiralama işlemi zaten mevcut' });
+      return res.status(422).json({ message: 'Kiralama işlemi zaten mevcut' });
     }
 
     const park = await Parking.findById({ _id: req.body.parkid });
@@ -104,7 +104,7 @@ const getIDUsingUserParkIDController = async (req, res) => {
     if (exist) {
       return res.status(200).json({ rents: exist.map((rent) => rent.toObject()) });
     } else {
-      return res.status(404).json({ msg: 'Bulunamadi' });
+      return res.status(404).json({ message: 'Bulunamadi' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });

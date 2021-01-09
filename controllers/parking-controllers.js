@@ -58,4 +58,23 @@ const getParkInfoByIdController = async (req, res) => {
   }
 };
 
-module.exports = { getAllParkingController, postParkingController, getParkInfoByIdController };
+const postParkCommentController = async (req, res) => {
+  try {
+    await Parking.findByIdAndUpdate({ _id: req.body.parkid },
+      { $push: { comments: req.body.comment } })
+      .then((response) => {
+        res.status(200).json({ message: 'Yorumunuz basarıyla kaydedildi' });
+      }).catch((error) => {
+        res.status(404).json({ message: error });
+      })
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  getAllParkingController,
+  postParkingController,
+  getParkInfoByIdController,
+  postParkCommentController
+};

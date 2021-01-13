@@ -36,22 +36,22 @@ app.use('/api/rents', rentsRoutes);
 
 // Unknown Route
 app.use((req, res) => {
-  res.status(404).json({ message: 'Could not find this route' });
+    res.status(404).json({ message: 'Could not find this route' });
 });
 
 // DB Connection and listening . . .
 mongoose
-  .connect(UP_DB_CONN, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  })
-  .then(() => {
-    app.listen(UP_API_PORT, () => {
-      console.log(`Database connection is established. Server is running on port '${UP_API_PORT}'`);
+    .connect(UP_DB_CONN, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    })
+    .then(() => {
+        app.listen(UP_API_PORT, () => {
+            console.log(`Database connection is established. Server is running on port '${UP_API_PORT}'`);
+        });
+    })
+    .catch((err) => {
+        console.log(`Error occured while connecting database and server could not start\n\n${err}`);
     });
-  })
-  .catch((err) => {
-    console.log(`Error occured while connecting database and server could not start\n\n${err}`);
-  });

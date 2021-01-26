@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import UserContext from '../../context/UserContext';
+import UserContext from "../../context/UserContext";
 
-import LeafletMap from '../layout/LeafletMap';
-import LandingPageCards from '../layout/LandingPageCards';
+import LeafletMap from "../layout/LeafletMap";
+import LandingPageCards from "../layout/LandingPageCards";
 
 export default function Home() {
-  const { userData } = useContext(UserContext);
+    const { userData } = useContext(UserContext);
 
-  /*const days = [
+    /*const days = [
     'Pazar',
     'Pazartesi',
     'Salı',
@@ -17,7 +17,7 @@ export default function Home() {
     'Cuma',
     'Cumartesi',
   ];*/
-  // console.log(days[new Date().getDay()]);
+    // console.log(days[new Date().getDay()]);
 
-  return <div>{userData.user ? <LeafletMap /> : <LandingPageCards />}</div>;
+    return <div>{userData.user ? <LeafletMap /> : <LandingPageCards />}</div>;
 }

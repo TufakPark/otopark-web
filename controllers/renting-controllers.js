@@ -166,12 +166,40 @@ const getUsedInfoCOntroller = async (req, res) => {
     }
 };
 
+const postRentEndDateController = async (req, res) => {
+    try {
+        await Renting.findByIdAndUpdate({ _id: req.body._id },
+            {
+                enddate: req.body.enddate,
+                price: req.body.price,
+                used: true
+            },
+            { new: true })
+            .exec()
+            .then((response) => {
+                Parking.findByIdAndUpdate(
+                    { _id: response.parkid },
+                    { $inc: { carsnumber: -1 } },
+                    { new: true })
+                    .exec()
+                    .then(() => {
+                        res.status(200).json({
+                            rent: response
+                        });
+                    });
+            });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getAllRentingController,
     postRentingController,
+    postUsedRentByRentIDController,
     getIDUsingUserParkIDController,
     getRentInfoUsingRentIDController,
-    postUsedRentByRentIDController,
     getAllRentsByUserIDController,
-    getUsedInfoCOntroller
-};
+    getUsedInfoCOntroller,
+    postRentEndDateController
+}

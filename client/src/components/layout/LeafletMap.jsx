@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import DateTimePicker from "react-datetime-picker";
 
+import UserContext from "../../context/UserContext";
+
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 export default function LeafletMap() {
+    const { userData } = useContext(UserContext);
+
     const [mapData, setMapData] = useState();
     const [markerData, setMarkerData] = useState();
 
@@ -48,14 +52,54 @@ export default function LeafletMap() {
 
     const handleSearchChange = () => {};
 
-    const handleRentingButton = () => {
-        try {
-            const start = String(startValue).split(" ");
-            const end = String(endValue).split(" ");
-            console.log(start, "\n", end);
-        } catch (err) {
-            console.log(err);
+    const getMonth = (month) => {
+        switch (month) {
+            case "Jan":
+                return "01";
+            case "Feb":
+                return "02";
+            default:
+                return month;
         }
+    };
+
+    const handleRentingButton = async () => {
+        // mongodb standard: 2021-01-27T22:38:04.858Z
+        let start = String(startValue).split(" ");
+        let end = String(endValue).split(" ");
+
+        start = `${start[3]}-${getMonth(start[1])}-${start[2]}T${
+            // eslint-disable-next-line
+            start[4]
+        }.858Z`;
+
+        end = `${end[3]}-${getMonth(end[1])}-${end[2]}T${
+            // eslint-disable-next-line
+            end[4]
+        }.858Z`;
+
+        await axios
+            .post(
+                "/rents/add",
+                {
+                    userid: userData.user.id,
+                    parkid: markerData._id,
+                    startdate: start,
+                    enddate: end,
+                    price: 22,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            )
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const renderSearchResult = () => {
